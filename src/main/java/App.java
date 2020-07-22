@@ -6,6 +6,7 @@ import dao.Sql2oUsersDao;
 import dao.Sql2oDepartmentDao;
 import models.Departments;
 import models.News;
+import models.Users;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import exceptions.ApiException;
@@ -49,6 +50,13 @@ public class App {
             return gson.toJson(news);
         });
 
+        post("/users/new", "application/json", (req, res) -> {
+            Users users = gson.fromJson(req.body(), Users.class);
+            usersDao.add(users);
+            res.status(201);
+            return gson.toJson(users);
+        });
+
 
         //READ
         get("/departments", "application/json", (req, res) -> { //accept a request in format JSON from an app
@@ -83,6 +91,11 @@ public class App {
 
         get("/users", "application/json", (req, res) -> {
             return gson.toJson(usersDao.getAll());
+        });
+
+        get("/users/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            int userId = Integer.parseInt(req.params("id"));
+            return gson.toJson(departmentDao.findById(userId));
         });
 
 
