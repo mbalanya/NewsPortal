@@ -50,6 +50,42 @@ public class App {
         });
 
 
+        //READ
+        get("/departments", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            System.out.println(departmentDao.getAll());
+            if(departmentDao.getAll().size() > 0){
+                return gson.toJson(departmentDao.getAll());//send it back to be displayed
+            } else {
+                return "{\"message\":\"I'm sorry, no departments are currently listed.\"}";
+            }
+
+        });
+
+        get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
+            int departmentId = Integer.parseInt(req.params("id"));
+            return gson.toJson(departmentDao.findById(departmentId));
+        });
+
+        get("/departments/:id/news", "application/json", (req, res) -> {
+            int departmentId = Integer.parseInt(req.params("id"));
+
+            Departments departmentToFind = departmentDao.findById(departmentId);
+            List<News> allNews;
+
+            if (departmentToFind == null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+            }
+
+            allNews = newsDao.getAllNewsByDepartment(departmentId);
+
+            return gson.toJson(allNews);
+        });
+
+        get("/users", "application/json", (req, res) -> {
+            return gson.toJson(usersDao.getAll());
+        });
+
+
 
 
         //FILTERS
