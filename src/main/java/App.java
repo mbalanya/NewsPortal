@@ -86,9 +86,26 @@ public class App {
         });
 
 
+        /*//CREATE
+        post("/restaurants/new", "application/json", (req, res) -> {
+            Restaurant restaurant = gson.fromJson(req.body(), Restaurant.class);
+            restaurantDao.add(restaurant);
+            res.status(201);
+            return gson.toJson(restaurant);
+        });*/
 
 
         //FILTERS
+        exception(ApiException.class, (exception, req, res) -> {
+            ApiException err = (ApiException) exception;
+            Map<String, Object> jsonMap = new HashMap<>();
+            jsonMap.put("status", err.getStatusCode());
+            jsonMap.put("errorMessage", err.getMessage());
+            res.type("application/json");
+            res.status(err.getStatusCode());
+            res.body(gson.toJson(jsonMap));
+        });
+
         after((req, res) -> {
             res.type("application/json");
         });
