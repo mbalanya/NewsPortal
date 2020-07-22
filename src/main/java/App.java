@@ -113,15 +113,6 @@ public class App {
         });
 
 
-        /*//CREATE
-        post("/restaurants/new", "application/json", (req, res) -> {
-            Restaurant restaurant = gson.fromJson(req.body(), Restaurant.class);
-            restaurantDao.add(restaurant);
-            res.status(201);
-            return gson.toJson(restaurant);
-        });*/
-
-
         //FILTERS
         exception(ApiException.class, (exception, req, res) -> {
             ApiException err = (ApiException) exception;
