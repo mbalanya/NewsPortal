@@ -26,6 +26,15 @@ public class Sql2oUsersDao implements UsersDao {
     }
 
     @Override
+    public Users findById(int id) {
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM users WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Users.class);
+        }
+    }
+
+    @Override
     public List<Users> getAll() {
         try(Connection con = sql2o.open()){
             return con.createQuery("SELECT * FROM users")

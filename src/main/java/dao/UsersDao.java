@@ -11,6 +11,7 @@ public interface UsersDao {
 
     //read
     List<Users> getAll();
+    Users findById(int id);
     // List<Users> getAllUsersForADepartment(int id);
 
     //update

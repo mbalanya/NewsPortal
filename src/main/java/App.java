@@ -71,7 +71,12 @@ public class App {
 
         get("/departments/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
             int departmentId = Integer.parseInt(req.params("id"));
-            return gson.toJson(departmentDao.findById(departmentId));
+            Departments departmentToFind = departmentDao.findById(departmentId);
+
+            if (departmentToFind == null){
+                throw new ApiException(404, String.format("No department with the id: \"%s\" exists", req.params("id")));
+            }
+            return gson.toJson(departmentToFind);
         });
 
         get("/departments/:id/news", "application/json", (req, res) -> {
@@ -98,8 +103,13 @@ public class App {
         });
 
         get("/users/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
-            int userId = Integer.parseInt(req.params("id"));
-            return gson.toJson(departmentDao.findById(userId));
+            int usersId = Integer.parseInt(req.params("id"));
+            Users usersToFind = usersDao.findById(usersId);
+
+            if(usersToFind == null) {
+                throw new ApiException(404, String.format("No user with the id: \"%s\" exists", req.params("id")));
+            }
+            return gson.toJson(usersToFind);
         });
 
 
