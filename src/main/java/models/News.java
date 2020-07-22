@@ -34,9 +34,7 @@ public class News {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public int getDepartmentId() {
         return departmentId;

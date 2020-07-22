@@ -40,7 +40,7 @@ public class App {
             return gson.toJson(departments);
         });
 
-        post("/departments/departmentId/news/new", "application/json", (req, res) -> {
+        post("/departments/:departmentId/news/new", "application/json", (req, res) -> {
             int departmentId = Integer.parseInt(req.params("departmentId"));
             News news = gson.fromJson(req.body(), News.class);
             news.setDepartmentId(departmentId);
